@@ -1,9 +1,5 @@
-﻿  test.cpp
-  源1.cpp
+﻿  test1.cpp
+  test2.cpp
+D:\mycode\cpp\dian\level0\test2.cpp(19,41): warning C4018: “<”: 有符号/无符号不匹配
   正在生成代码...
-\test.cpp(1,1): error C1083: 无法打开源文件: “test.cpp”: No such file or directory
-  (编译源文件“/test.cpp”)
-  
-\源1.cpp(1,1): error C1083: 无法打开源文件: “源1.cpp”: No such file or directory
-  (编译源文件“/源1.cpp”)
-  
+  level0.vcxproj -> D:\mycode\cpp\dian\level0\x64\Debug\level0.exe
