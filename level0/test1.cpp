@@ -13,7 +13,6 @@ int main() {
             cout << "2002" << endl;
         }
         else if (a == "Quit") {
-            cout << "³ÌĞòÍË³ö" << endl;
             break;
         }
         else {

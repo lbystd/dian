@@ -8,17 +8,17 @@ using namespace std;
 const string dat = "library_data.txt";
 const string dys[] = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
-int getday(const string& d) {
+int getday(string d) {
     for (int i = 0; i < 7; i++) {
         if (d == dys[i]) return i;
     }
     return -1;
 }
 
-bool validuser(const string& u) {
-    if (u == "Admin") return true;
-    if (u.size() == 1 && u[0] >= 'A' && u[0] <= 'Z') return true;
-    return false;
+bool validuser(string u) {
+    if (u == "Admin") return 1;
+    if (u.size() == 1 && u[0] >= 'A' && u[0] <= 'Z') return 1;
+    return 0;
 }
 
 void load(char seat[7][5][4][4]) {
@@ -41,7 +41,7 @@ void load(char seat[7][5][4][4]) {
     fin.close();
 }
 
-void save(const char seat[7][5][4][4]) {
+void save(char seat[7][5][4][4]) {
     ofstream fout(dat);
     for (int d = 0; d < 7; d++) {
         for (int f = 0; f < 5; f++) {
@@ -68,7 +68,7 @@ void clear(char seat[7][5][4][4]) {
     cout << "所有预约数据已清空。" << endl;
 }
 
-void show(const char seat[7][5][4][4], const string& user, const string& day, int flnum) {
+void show(char seat[7][5][4][4], string user, string day, int flnum) {
     int d = getday(day);
     int flidx = flnum - 1;
 
@@ -94,7 +94,7 @@ void show(const char seat[7][5][4][4], const string& user, const string& day, in
     }
 }
 
-void reserve(char seat[7][5][4][4], const string& user, const string& day, int flnum, int rnum, int cnum) {
+void reserve(char seat[7][5][4][4],string user, string day, int flnum, int rnum, int cnum) {
     int d = getday(day);
     int flidx = flnum - 1;
     int ridx = rnum - 1;
@@ -114,7 +114,7 @@ void reserve(char seat[7][5][4][4], const string& user, const string& day, int f
     }
 }
 
-void myres(const char seat[7][5][4][4], const string& user) {
+void myres(char seat[7][5][4][4], string user) {
     bool has = false;
     cout << "\n我的预约记录：" << endl;
     for (int d = 0; d < 7; d++) {
@@ -134,25 +134,6 @@ void myres(const char seat[7][5][4][4], const string& user) {
     }
 }
 
-void cancel(char seat[7][5][4][4], const string& day, int flnum, int rnum, int cnum) {
-    int d = getday(day);
-    int flidx = flnum - 1;
-    int ridx = rnum - 1;
-    int cidx = cnum - 1;
-
-    if (d == -1 || flnum < 1 || flnum > 5 || rnum < 1 || rnum > 4 || cnum < 1 || cnum > 4) {
-        cout << "无效的取消信息。" << endl;
-        return;
-    }
-
-    if (seat[d][flidx][ridx][cidx] != '0') {
-        seat[d][flidx][ridx][cidx] = '0';
-        cout << "预约已取消。" << endl;
-    }
-    else {
-        cout << "该座位未被预约，无需取消。" << endl;
-    }
-}
 
 int main() {
     char seat[7][5][4][4];
@@ -162,7 +143,7 @@ int main() {
     string cmd;
 
     cout << "--- 图书馆预约系统 ---" << endl;
-    cout << "支持指令: Login, Exit, Quit, 查询(如: Monday Floor 1), Reserve, Reservation, Admin指令(Clear, Cancel)" << endl;
+    cout << "支持指令: Login, Exit, Quit, 查询(如: Monday Floor 1), Reserve, Reservation, Admin指令(Clear)" << endl;
 
     while (1) {
         cout << "\n请输入指令：";
@@ -227,24 +208,11 @@ int main() {
         else if (cmd == "Reservation") {
             myres(seat, user);
         }
-        else if (cmd == "Cancel" && user == "Admin") {
-            string day, fkey, skey;
-            int flnum, rnum, cnum;
-            cout << "请输入要取消的预约信息 (格式: 日期 Floor 楼层 Seat 排 列): ";
-            cin >> day >> fkey >> flnum >> skey >> rnum >> cnum;
-            if (fkey == "Floor" && skey == "Seat") {
-                cancel(seat, day, flnum, rnum, cnum);
-            }
-            else {
-                cout << "取消指令格式错误。示例：Cancel Monday Floor 1 Seat 1 2" << endl;
-            }
-        }
         else {
             cout << "未知指令。" << endl;
         }
 
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
-
     return 0;
 }
