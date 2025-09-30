@@ -21,12 +21,17 @@ bool validuser(string u) {
     return 0;
 }
 
-void load(char seat[7][5][4][4]) {
-    for (int d = 0; d < 7; d++)
-        for (int f = 0; f < 5; f++)
-            for (int r = 0; r < 4; r++)
-                for (int c = 0; c < 4; c++)
+void load(char seat[10][10][10][10]) {
+    for (int d = 0; d < 7; d++) {
+        for (int f = 0; f < 5; f++) {
+            for (int r = 0; r < 4; r++) {
+                for (int c = 0; c < 4; c++) {
                     seat[d][f][r][c] = '0';
+                } 
+            }            
+        }            
+    }
+        
 
     ifstream fin(dat);
     if (!fin.is_open()) return;
@@ -34,14 +39,18 @@ void load(char seat[7][5][4][4]) {
     string day;
     int flnum, rnum, cnum;
     char usr;
-    while (fin >> day >> flnum >> rnum >> cnum >> usr) {
+    while (1) {
+        fin >> day >> flnum >> rnum >> cnum >> usr;
+        if (!fin) {
+            break;
+        }
         int d = getday(day);
         if (d != -1) seat[d][flnum - 1][rnum - 1][cnum - 1] = usr;
     }
     fin.close();
 }
 
-void save(char seat[7][5][4][4]) {
+void save(char seat[10][10][10][10]) {
     ofstream fout(dat);
     for (int d = 0; d < 7; d++) {
         for (int f = 0; f < 5; f++) {
@@ -58,17 +67,22 @@ void save(char seat[7][5][4][4]) {
     fout.close();
 }
 
-void clear(char seat[7][5][4][4]) {
-    for (int d = 0; d < 7; d++)
-        for (int f = 0; f < 5; f++)
-            for (int r = 0; r < 4; r++)
-                for (int c = 0; c < 4; c++)
+void clear(char seat[10][10][10][10]) {
+    for (int d = 0; d < 7; d++) {
+        for (int f = 0; f < 5; f++) {
+            for (int r = 0; r < 4; r++) {
+                for (int c = 0; c < 4; c++) {
                     seat[d][f][r][c] = '0';
+                }                                  
+            }                      
+        }
+    }
+        
     save(seat);
     cout << "所有预约数据已清空。" << endl;
 }
 
-void show(char seat[7][5][4][4], string user, string day, int flnum) {
+void show(char seat[10][10][10][10], string user, string day, int flnum) {
     int d = getday(day);
     int flidx = flnum - 1;
 
@@ -85,20 +99,24 @@ void show(char seat[7][5][4][4], string user, string day, int flnum) {
                 cout << sts;
             }
             else {
-                if (sts == '0') cout << '0';
-                else if (sts == user[0]) cout << '2';
-                else cout << '1';
+                if (sts == '0') {
+                    cout << '0';
+                }
+                else if (sts == user[0]) {
+                    cout << '2';
+                }
+                else {
+                    cout << '1';
+                }
             }
         }
         cout << endl;
     }
 }
 
-void reserve(char seat[7][5][4][4],string user, string day, int flnum, int rnum, int cnum) {
+void reserve(char seat[10][10][10][10],string user, string day, int flnum, int rnum, int cnum) {
     int d = getday(day);
-    int flidx = flnum - 1;
-    int ridx = rnum - 1;
-    int cidx = cnum - 1;
+    int flidx = flnum - 1,ridx = rnum - 1,cidx = cnum - 1;
 
     if (d == -1 || flnum < 1 || flnum > 5 || rnum < 1 || rnum > 4 || cnum < 1 || cnum > 4) {
         cout << "无效的预约信息。" << endl;
@@ -114,8 +132,8 @@ void reserve(char seat[7][5][4][4],string user, string day, int flnum, int rnum,
     }
 }
 
-void myres(char seat[7][5][4][4], string user) {
-    bool has = false;
+void myres(char seat[10][10][10][10], string user) {
+    bool flag = 0;
     cout << "\n我的预约记录：" << endl;
     for (int d = 0; d < 7; d++) {
         for (int f = 0; f < 5; f++) {
@@ -123,26 +141,26 @@ void myres(char seat[7][5][4][4], string user) {
                 for (int c = 0; c < 4; c++) {
                     if (seat[d][f][r][c] == user[0]) {
                         cout << dys[d] << " Floor " << (f + 1) << " Seat " << (r + 1) << " " << (c + 1) << endl;
-                        has = true;
+                        flag = 1;
                     }
                 }
             }
         }
     }
-    if (!has) {
+    if (!flag) {
         cout << "暂无预约记录。" << endl;
     }
 }
 
 
 int main() {
-    char seat[7][5][4][4];
+    char seat[10][10][10][10];
     load(seat);
 
     string user;
     string cmd;
 
-    cout << "--- 图书馆预约系统 ---" << endl;
+    cout << "图书馆预约系统" << endl;
     cout << "支持指令: Login, Exit, Quit, 查询(如: Monday Floor 1), Reserve, Reservation, Admin指令(Clear)" << endl;
 
     while (1) {
