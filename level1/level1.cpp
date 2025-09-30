@@ -6,11 +6,11 @@
 using namespace std;
 
 const string dat = "library_data.txt";
-const string dys[] = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+const string days[] = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
 int getday(string d) {
     for (int i = 0; i < 7; i++) {
-        if (d == dys[i]) return i;
+        if (d == days[i]) return i;
     }
     return -1;
 }
@@ -58,7 +58,7 @@ void save(char seat[10][10][10][10]) {
                 for (int c = 0; c < 4; c++) {
                     char usr = seat[d][f][r][c];
                     if (usr != '0') {
-                        fout << dys[d] << " " << (f + 1) << " " << (r + 1) << " " << (c + 1) << " " << usr << endl;
+                        fout << days[d] << " " << (f + 1) << " " << (r + 1) << " " << (c + 1) << " " << usr << endl;
                     }
                 }
             }
@@ -140,7 +140,7 @@ void myres(char seat[10][10][10][10], string user) {
             for (int r = 0; r < 4; r++) {
                 for (int c = 0; c < 4; c++) {
                     if (seat[d][f][r][c] == user[0]) {
-                        cout << dys[d] << " Floor " << (f + 1) << " Seat " << (r + 1) << " " << (c + 1) << endl;
+                        cout << days[d] << " Floor " << (f + 1) << " Seat " << (r + 1) << " " << (c + 1) << endl;
                         flag = 1;
                     }
                 }
@@ -229,8 +229,6 @@ int main() {
         else {
             cout << "δָ֪�" << endl;
         }
-
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     return 0;
 }
