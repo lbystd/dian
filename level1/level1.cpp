@@ -6,11 +6,11 @@
 using namespace std;
 
 const string dat = "library_data.txt";
-const string days[] = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+const string dys[] = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
 int getday(string d) {
     for (int i = 0; i < 7; i++) {
-        if (d == days[i]) return i;
+        if (d == dys[i]) return i;
     }
     return -1;
 }
@@ -27,11 +27,11 @@ void load(char seat[10][10][10][10]) {
             for (int r = 0; r < 4; r++) {
                 for (int c = 0; c < 4; c++) {
                     seat[d][f][r][c] = '0';
-                } 
-            }            
-        }            
+                }
+            }
+        }
     }
-        
+
 
     ifstream fin(dat);
     if (!fin.is_open()) return;
@@ -58,7 +58,7 @@ void save(char seat[10][10][10][10]) {
                 for (int c = 0; c < 4; c++) {
                     char usr = seat[d][f][r][c];
                     if (usr != '0') {
-                        fout << days[d] << " " << (f + 1) << " " << (r + 1) << " " << (c + 1) << " " << usr << endl;
+                        fout << dys[d] << " " << (f + 1) << " " << (r + 1) << " " << (c + 1) << " " << usr << endl;
                     }
                 }
             }
@@ -73,11 +73,11 @@ void clear(char seat[10][10][10][10]) {
             for (int r = 0; r < 4; r++) {
                 for (int c = 0; c < 4; c++) {
                     seat[d][f][r][c] = '0';
-                }                                  
-            }                      
+                }
+            }
         }
     }
-        
+
     save(seat);
     cout << "所有预约数据已清空。" << endl;
 }
@@ -114,9 +114,9 @@ void show(char seat[10][10][10][10], string user, string day, int flnum) {
     }
 }
 
-void reserve(char seat[10][10][10][10],string user, string day, int flnum, int rnum, int cnum) {
+void reserve(char seat[10][10][10][10], string user, string day, int flnum, int rnum, int cnum) {
     int d = getday(day);
-    int flidx = flnum - 1,ridx = rnum - 1,cidx = cnum - 1;
+    int flidx = flnum - 1, ridx = rnum - 1, cidx = cnum - 1;
 
     if (d == -1 || flnum < 1 || flnum > 5 || rnum < 1 || rnum > 4 || cnum < 1 || cnum > 4) {
         cout << "无效的预约信息。" << endl;
@@ -140,7 +140,7 @@ void myres(char seat[10][10][10][10], string user) {
             for (int r = 0; r < 4; r++) {
                 for (int c = 0; c < 4; c++) {
                     if (seat[d][f][r][c] == user[0]) {
-                        cout << days[d] << " Floor " << (f + 1) << " Seat " << (r + 1) << " " << (c + 1) << endl;
+                        cout << dys[d] << " Floor " << (f + 1) << " Seat " << (r + 1) << " " << (c + 1) << endl;
                         flag = 1;
                     }
                 }
@@ -229,6 +229,8 @@ int main() {
         else {
             cout << "未知指令。" << endl;
         }
+
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     return 0;
 }
